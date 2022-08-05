@@ -25,6 +25,11 @@ export const EventList = (props) => {
                         <div className="event__description">{event.description}</div>
                         <div className="event__date">{event.date}</div>
                         <div className="event__time">{event.time}</div>
+                        <button className="editButton"
+                            onClick={() => {
+                                navigate({pathname: `/events/edit/${event.id}`})
+                            }}
+                            >Update Event</button>
                     </section>
                 })
             }
