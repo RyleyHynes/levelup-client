@@ -1,6 +1,6 @@
-import { createEvent } from "@testing-library/react"
 import { useEffect, useState } from "react"
-import { Navigate, useNavigate } from "react-router-dom"
+import { useNavigate } from "react-router-dom"
+import { createEvent } from "../../managers/EventManager"
 import { getGames } from "../../managers/GameManager"
 
 export const EventForm = () => {
@@ -16,18 +16,17 @@ export const EventForm = () => {
         description: "",
         date: "",
         time: "",
-        gameId: 0,
-        organizerId: parseInt(localStorage.getItem("lu_token"))
+        gameId: 0
     })
 
     useEffect(() => {
-        getGames.then(data => setGames(data))
+        getGames().then(data => setGames(data))
     },[])
 
     const changeEventState = (domEvent) => {
-        const newEvent = {...newEvent}
-        newEvent[domEvent.target.name] = domEvent.target.value
-        setNewEvent(newEvent)
+        const copy = {...newEvent}
+        copy[domEvent.target.name] = domEvent.target.value
+        setNewEvent(copy)
     }
 
     return(
@@ -44,38 +43,40 @@ export const EventForm = () => {
             <fieldset>
                 <div className="form-group">
                     <label htmlFor="date">Date: </label>
-                    <input type="date" name="date" required autoFocus className="form-control" value={newEvent.date} />
+                    <input type="date" name="date" required autoFocus className="form-control" value={newEvent.date} onChange={changeEventState} />
                 </div>
             </fieldset>
 
             <fieldset>
                 <div className="form-group">
                     <label htmlFor="time" >Time: </label>
-                    <input type="time" name="time" required className="form-control" min="1" max="50" value={newEvent.time} />
+                    <input type="time" name="time" required className="form-control" min="1" max="50" value={newEvent.time} onChange={changeEventState} />
                 </div>
             </fieldset>
 
             <fieldset>
                 <div className="form-group">
                     <label htmlFor="gameId">Select A Game: </label>
+                    <select className="form-control" name="game" value={newEvent.game} required onChange={changeEventState}>
                     <option value="0">Choose Game:</option>
                     {
                         games.map(game => {
                             return <option value={game.id} key={`game--${game.id}`}>{game.title}</option>
                         })
                     }
+                    </select>
                 </div>
             </fieldset>
 
             <button type="submit" onClick={evt => {
                 /*Prevents the form from being submitted*/
                 evt.preventDefault()
+
                 const event = {
                     description: newEvent.description,
                     date: newEvent.date,
                     time: newEvent.time,
-                    game: parseInt(newEvent.gameId),
-                    organizer: parseInt(localStorage.getItem("lu_token"))
+                    game: parseInt(newEvent.game)
                 }
                 /*Send Post request to API*/
                 createEvent(event)

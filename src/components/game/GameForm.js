@@ -3,7 +3,7 @@ import { Navigate, useNavigate } from "react-router-dom"
 import { createGame, getGameTypes } from "../../managers/GameManager"
 
 export const GameForm = () => {
-    const naviagate = useNavigate()
+    const navigate = useNavigate()
     const [gameTypes, setGameTypes] = useState([])
 
     /*
@@ -44,10 +44,11 @@ export const GameForm = () => {
 
             <fieldset>
                 <div className="form-group">
-                    <label htmlFor="Maker">Maker: </label>
-                    <input type="text" name="Maker" required autoFocus className="form-control"
+                    <label htmlFor="maker">Maker: </label>
+                    <input type="text" name="maker" required autoFocus className="form-control"
                         value={currentGame.maker}
-                        onChange={changeGameState} />
+                        onChange={changeGameState} 
+                    />
                 </div>
             </fieldset>
 
@@ -97,7 +98,7 @@ export const GameForm = () => {
 
                     //Send POST request to your API
                     createGame(game)
-                        .then(() => Navigate("/games"))
+                        .then(() => navigate("/games"))
                 }}
                 className="btn btn-primary">Create</button>
         </form>
