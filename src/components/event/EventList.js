@@ -1,6 +1,6 @@
-import { useEffect, useState } from "react"
+import React, { useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom"
-import { getEvents } from "../../managers/EventManager"
+import { deleteEvent, getEvents } from "../../managers/EventManager"
 
 export const EventList = (props) => {
     const navigate = useNavigate()
@@ -10,6 +10,9 @@ export const EventList = (props) => {
         getEvents().then(data => setEvents(data))
     }, [])
 
+    const refreshPage = () => {
+        window.location.reload(false);
+      }
     return (
         <>
         <button className="btn btn-2 btn-sep icon create"
@@ -29,7 +32,12 @@ export const EventList = (props) => {
                             onClick={() => {
                                 navigate({pathname: `/events/edit/${event.id}`})
                             }}
-                            >Update Event</button>
+                            >Update</button>
+                        <button className="deleteButton"
+                            onClick={() => {
+                                refreshPage()
+                                deleteEvent(event.id)
+                                .then(getEvents().then(setEvents))}}>Delete</button>
                     </section>
                 })
             }
