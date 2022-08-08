@@ -47,6 +47,6 @@ export const updateTheGame = (gameId, game) => {
             "Authorization": `Token ${localStorage.getItem("lu_token")}`,
             "Content-Type": "application/json"
         },
+        body: JSON.stringify(game)
     })
-    .then(response => response.json(game))
 }

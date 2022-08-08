@@ -18,7 +18,9 @@ export const UpdateGame = () => {
     })
 
     useEffect(() => {
-        getSingleGame(gameId).then(data => setUpdatedGame(data))
+        getSingleGame(gameId).then(data => {
+            data.game_type=data.game_type.id
+            setUpdatedGame(data)})
     },
         [gameId])
 
@@ -60,7 +62,7 @@ export const UpdateGame = () => {
             <fieldset>
                 <div className="form-group">
                     <label htmlFor="numberOfPlayers">Number Of Players: </label>
-                    <input type="number" name="numberOfPlayers" required className="form-control" min="1" max="50" value={updateGame.numberOfPlayers}
+                    <input type="number" name="number_of_players" required className="form-control" min="1" max="50" value={updateGame.numberOfPlayers}
                         onChange={changeGameState} />
                 </div>
             </fieldset>
@@ -68,8 +70,8 @@ export const UpdateGame = () => {
             <fieldset>
                 <div className="form-group">
                     <label htmlFor="skillLevel">Skill Level: </label>
-                    <input type="number" name="skillLevel" required autoFocus className="form-control"
-                        value={updateGame.skillLevel}
+                    <input type="number" name="skill_level" required autoFocus className="form-control"
+                        value={updateGame.skill_level}
                         onChange={changeGameState} />
                 </div>
             </fieldset>
@@ -77,7 +79,7 @@ export const UpdateGame = () => {
             <fieldset>
                 <div className="form-group">
                     <label htmlFor="gameTypeId">Game Type: </label>
-                    <select className="form-control" name="gameTypeId" value={updateGame.gameTypeId} required onChange={changeGameState}>
+                    <select className="form-control" name="game_type" value={updateGame.game_type} required onChange={changeGameState}>
                         <option value="0">Chose Game Type</option>
                         {
                             gameTypes.map(gameType => {
@@ -95,9 +97,9 @@ export const UpdateGame = () => {
                     const game = {
                         title: updateGame.title,
                         maker: updateGame.maker,
-                        number_of_players: parseInt(updateGame.numberOfPlayers),
-                        skill_level: parseInt(updateGame.skillLevel),
-                        game_type: parseInt(updateGame.gameTypeId)
+                        number_of_players: parseInt(updateGame.number_of_players),
+                        skill_level: parseInt(updateGame.skill_level),
+                        game_type: parseInt(updateGame.game_type)
                     }
 
                     //Send POST request to your API
