@@ -13,11 +13,11 @@ export const getSingleEvent = (eventId) => {
             "Authorization": `Token ${localStorage.getItem("lu_token")}`
         }
     })
-    .then(response => response.json())
+        .then(response => response.json())
 }
 
 
-/*POST Function To Create A New Event */
+/*POST Function*/
 export const createEvent = (event) => {
     return fetch("http://localhost:8000/events", {
         method: "POST",
@@ -28,6 +28,16 @@ export const createEvent = (event) => {
         body: JSON.stringify(event)
     })
         .then(response => response.json())
+}
+
+export const joinEvent = (eventId) => {
+    return fetch(`http://localhost:8000/events/${eventId}/signup`, {
+        method: "POST",
+        headers: {
+            "Authorization": `Token ${localStorage.getItem("lu_token")}`
+        }
+    })
+        .then(response => response.json(eventId))
 }
 
 /*PUT Function To Update Existing Events*/
@@ -42,6 +52,8 @@ export const updateEvent = (eventId, event) => {
     })
 }
 
+
+/*Delete Functions*/
 export const deleteEvent = (id) => {
     return fetch(`http://localhost:8000/events/${id}`, {
         method: "DELETE",
@@ -51,3 +63,15 @@ export const deleteEvent = (id) => {
         }
     })
 }
+
+
+export const leaveEvent = (eventId) => {
+    return fetch(`http://localhost:8000/events/${eventId}/leave`, {
+        method: "DELETE",
+        headers: {
+            "Authorization": `Token ${localStorage.getItem("lu_token")}`
+        }
+    })
+        .then(response => response.json())
+}
+
